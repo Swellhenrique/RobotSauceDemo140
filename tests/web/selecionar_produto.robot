@@ -7,11 +7,13 @@ Test Teardown    Close Browser    # no final, fecha o navegador
 
 ${url}    https://www.saucedemo.com/
 ${browser}    Chrome
+${timeout}    10000ms
 
 # adicionei as duas variaveis abaixo pois dizia que elas nao existiam quando as usei no keywords
 ${test_product_name} 
 ${test_product_price}
 ${test_cart_items}
+
 
 *** Test Cases ***
 # frases --> Keywords
@@ -27,11 +29,15 @@ Selecionar Sauce Labs Backpack
     Entao visualizo o numero de items no carrinho    1
     Quando clico no icone do carrinho 
     Entao sou direcionado para pagina do carrinho
+    Quando clico no menu burguer 
+    E clico em logout
+    Entao sou direcionado para a pagina de login
 
 Selecionar Sauce Labs Backpack Login com Enter
     Dado que acesso o site SauceDemo
     Quando preencho o campo usuario    standard_user
     E preencho o campo senha   laranja
+    E pressiono a tecla Enter
 
 *** Keywords ***
 Dado que acesso o site SauceDemo
@@ -66,7 +72,8 @@ Quando clico no produto
     Click Element    css=img[alt="${test_product_name}"]
 
 Entao sou direcionado para a pagina do produto
-    Element Text Should Be    name=back to products    Back to products
+    Wait Until Element Is Visible    css=[data-test="back-to-products"]    ${timeout}
+    Element Text Should Be    css=[data-test="back-to-products"]     Back to products
     Element Text Should Be    css=div.inventory_details_name.large_size    ${test_product_name}
     Element Text Should Be    css=div.inventory_details_price    ${test_product_price}
 
@@ -83,10 +90,19 @@ Quando clico no icone do carrinho
 
 Entao sou direcionado para pagina do carrinho
     Wait Until Element Contains    css=.title    Your Cart
-    Element Text Should Be    css=div.iventory_item_name     ${test_product_name}
-    Element Text Should Be    css=div.iventory_item_price    ${test_product_price}
-    Element Text Should Be    css=div.cart_quantity          ${test_cart_items}   
+    Element Text Should Be    css=[data-test="inventory-item-name"]    ${test_product_name}
+    Element Text Should Be    css=div.inventory_item_price             ${test_product_price}
+    Element Text Should Be    css=div.cart_quantity                    ${test_cart_items}   
     
+Quando clico no menu burguer 
+    Click Element    css=div.bm-burger-button
+
+E clico em logout
+    Click Element    link=Logout
+
+Entao sou direcionado para a pagina de login
+    Wait Until Element Is Visible    css=input.submit-button.btn_action    5000ms
+
      
 
     
