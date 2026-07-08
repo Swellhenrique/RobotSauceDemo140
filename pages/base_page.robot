@@ -17,7 +17,6 @@ ${date}
 
 Abrir navegador
     Register Keyword To Run On failure    Tirar Screenshot
-    Obter Data e hora
     Open Browser    url=${url}    browser=${browser}
     Maximize Browser Window
     Set Browser Implicit Wait    10000ms
@@ -32,8 +31,8 @@ Clicar no Carrinho
     Wait Until Element Contains    css=[data-test="title"]    Your Cart    ${timeout}
 
 Realizar Logout
-    Click Button    id=react-burger-menu-btn
-    Click Element     css=[data-test="logout-sidebar-link"]
+    Click Button        id=react-burger-menu-btn
+    Click Link        css=[data-test="logout-sidebar-link"]
     Wait Until Element Is Visible    css=[data-test="login-button"]   ${timeout}
 
 
@@ -41,10 +40,10 @@ Realizar Logout
 Obter Data e hora
     ${date} =    Get Current Date
     ${date} =    Convert Date    ${date}    result_format=%Y.%m.%d_%H.%M.%S
-    ${date}    Set Suite Variable    ${date}
+    ${date}    Set Global Variable    ${date}
     
 Tirar Screenshot   
     [Arguments]     ${screenshot_name}
-    Capture Page Screenshot    screenshots/saucedemo/${TEST_NAME}/${date}/${screenshot_name}.png
+    Capture Page Screenshot    screenshots/saucedemo/${date}/${TEST_NAME}/${screenshot_name}.png
 
 
