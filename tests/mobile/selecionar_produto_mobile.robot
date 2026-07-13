@@ -9,41 +9,40 @@
 
 *** Settings ***
 Library           AppiumLibrary
-
 Test Teardown     Close Application
 
+
 *** Variables ***
-${SAUCE_USERNAME}    InstrutorIterasys22
-${REMOTE_URL}    https://${SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub     
+${SAUCE_USERNAME}    oauth-henriqueswell44-2991a
+${REMOTE_URL}    https://${SAUCE_USERNAME}:%{SAUCE_ACCESS_KEY}@ondemand.us-west-1.saucelabs.com:443/wd/hub   
 
 *** Test Cases ***
-Selecionar Mochila
+Selecionar Produto
     Open Application    ${REMOTE_URL}
-    ...    platformName=Android
-    ...    appium:platformVersion=9.0
-    ...    appium:deviceName=Samsung Galaxy S9 FHD GoogleAPI Emulator
-    ...    appium:deviceOrientation=portrait
-    ...    appium:app=storage:filename=mda-2.0.1-22.apk
-    ...    appium:appPackage=com.saucelabs.mydemoapp.android
-    ...    appium:appActivity=com.saucelabs.mydemoapp.android.view.activities.SplashActivity
-    ...    browserName=    
-    ...    appium:ensureWebviewsHavePages=${True}    
-    ...    appium:nativeWebScreenshot=${True}
-    #...    sauce:options=[object Object]
-    ...    appium:newCommandTimeout=${3600}
-    ...    appium:connectHardwareKeyboard=${True}
-    # Fim da configuração do emulador/aparelho fisico e da inicialização    
-    # Início dos passos da automação
-    ${img_produto} =    Set Variable     xpath=//android.widget.ImageView[@content-desc="Sauce Labs Backpack"]
+    ...        platformName=Android
+    ...        appium:platformVersion=16.0
+    ...        appium:deviceName=Android GoogleAPI Emulator
+    ...        appium:deviceOrientation=portrait
+    ...        appium:app=storage:filename=mda-2.2.0-25.apk
+    ...        appium:appPackage=com.saucelabs.mydemoapp.android
+    ...        appium:appActivity=com.saucelabs.mydemoapp.android.view.activities.SplashActivity
+    ...        appium:automationName=UiAutomator2
+    ...        browserName=
+    ...        appium:ensureWebviewsHavePages=${True}
+    ...        appium:nativeWebScreenshot=${True}
+   #...        sauce:options=[object Object]
+    ...        appium:newCommandTimeout=${3600}
+    ...        appium:connectHardwareKeyboard=${True}
+    ${img_produto} =    Set Variable     android=new UiSelector().resourceId("com.saucelabs.mydemoapp.android:id/productIV").instance(0)
     Click Element    ${img_produto}
-    Swipe    ${470}    ${1876}    ${457}    ${1624}
-    ${btn_adicionar_carrinho} =    Set Variable     xpath=//android.widget.Button[@content-desc="Tap to add product to cart"]
+    Swipe    start_x=392    start_y=1027    end_x=413    end_y=201
+    ${btn_adicionar_carrinho} =    Set Variable     accessibility_id=Tap to add product to cart
     Click Element    ${btn_adicionar_carrinho}
-    ${ico_carrinho} =    Set Variable     xpath=//android.widget.RelativeLayout[@content-desc="Displays number of items in your cart"]/android.widget.ImageView
+    ${ico_carrinho} =    Set Variable     android=new UiSelector().className("android.widget.ImageView").instance(3)
     Click Element    ${ico_carrinho}
-    ${lbl_nome_produto} =    Set Variable     xpath=//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/titleTV"]
+    ${lbl_nome_produto} =    Set Variable     id=com.saucelabs.mydemoapp.android:id/titleTV
     Element Text Should Be    ${lbl_nome_produto}    Sauce Labs Backpack
     ${lbl_preco_produto} =    Set Variable     id=com.saucelabs.mydemoapp.android:id/priceTV
     Element Text Should Be    ${lbl_preco_produto}    $ 29.99
 
-   
+
